@@ -1,0 +1,29 @@
+Read Output Inline script:-
+
+$var=ConvertFrom-Json '$(DeploymentOutput)'
+$REGISTRY_NAME=$var.registry_name.value
+$REGISTRY_SERVER=$var.registry_server.value
+$REGISTRY_USERNAME=$var.registry_username.value
+$REGISTRY_PASSWORD=$var.registry_password.value
+
+ECHO $var.registry_name.value
+ECHO $var.registry_server.value
+ECHO $var.registry_username.value
+ECHO  $var.registry_password.value
+
+Write-Host "##vso​[task.setvariable variable=REGISTRY_NAME]$REGISTRY_NAME"
+Write-Host "##vso​[task.setvariable variable=REGISTRY_SERVER]$REGISTRY_SERVER"
+Write-Host "##vso​[task.setvariable variable=REGISTRY_USERNAME]$REGISTRY_USERNAME"
+Write-Host "##vso​[task.setvariable variable=REGISTRY_PASSWORD]$REGISTRY_PASSWORD"
+
+
+
+
+Azure Container Registry :-
+
+{"loginServer":"$(REGISTRY_SERVER)", "id" : "/subscriptions/04bb8ed8-a018-4d22-adaa-6f075a32863d/resourceGroups/$(resourceGroupName)/providers/Microsoft.ContainerRegistry/registries/$(REGISTRY_NAME)"}
+
+
+Over ride parameter : -
+
+-registryServerName $(REGISTRY_SERVER) -registryUserName $(REGISTRY_USERNAME) -registryPassword $(REGISTRY_PASSWORD) -image $(REGISTRY_NAME).azurecr.io/$(Build.Repository.Name):$(Build.BuildId)  -env_ENVIRONMENT_NAME  "DEV"
